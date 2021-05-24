@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/exchangeFragment"
+        android:icon="@drawable/ic_exchange"
+        android:title="Curs BNR" />
+
+    <item
+        android:id="@+id/converterFragment"
+        android:icon="@drawable/ic_converter"
+        android:title="Convertor" />
+
+    <item
+        android:id="@+id/newsFragment"
+        android:icon="@drawable/ic_news"
+        android:title="Stiri" />
+
+</menu>
