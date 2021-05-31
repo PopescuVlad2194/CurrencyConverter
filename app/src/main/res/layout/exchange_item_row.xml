@@ -11,34 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/bank_currency_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_exchange"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/bank_currency_title"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bank_currency_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
             android:text="EUR"
-            app:layout_constraintStart_toEndOf="@id/bank_currency_image"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/bank_currency_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingTop="6dp"
-            android:text="Euro"
-            app:layout_constraintStart_toEndOf="@id/bank_currency_image"
-            app:layout_constraintTop_toBottomOf="@id/bank_currency_title" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/bank_currency_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

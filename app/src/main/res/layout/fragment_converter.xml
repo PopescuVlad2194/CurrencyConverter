@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.ConverterFragment">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvChangeFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Schimba din "
+        android:textSize="@dimen/standard_text"
+        app:layout_constraintBottom_toBottomOf="@id/btnChangeFrom"
+        app:layout_constraintStart_toStartOf="@id/leftVerticalGuideline"
+        app:layout_constraintTop_toTopOf="@id/btnChangeFrom" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvChangeIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="In"
+        android:textSize="@dimen/standard_text"
+        app:layout_constraintBottom_toBottomOf="@id/btnChangeIn"
+        app:layout_constraintStart_toStartOf="@id/leftVerticalGuideline"
+        app:layout_constraintTop_toTopOf="@id/btnChangeIn" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChangeFrom"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="RON"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/horizontalGuideline" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChangeIn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="EUR"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/btnChangeFrom" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnInterchange"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_btn_interchange"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintStart_toStartOf="@id/btnChangeIn"
+        app:layout_constraintTop_toBottomOf="@id/btnChangeIn" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Suma"
+        android:textSize="@dimen/standard_text"
+        app:layout_constraintBottom_toBottomOf="@id/etAmountInput"
+        app:layout_constraintStart_toEndOf="@id/leftVerticalGuideline"
+        app:layout_constraintTop_toTopOf="@id/etAmountInput" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etAmountInput"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:inputType="number"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/btnInterchange" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCurrentCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="RON"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@id/etAmountInput"
+        app:layout_constraintTop_toTopOf="@id/etAmountInput" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rezultat"
+        android:textSize="@dimen/standard_text"
+        app:layout_constraintBottom_toBottomOf="@id/tvResultConversion"
+        app:layout_constraintStart_toEndOf="@id/leftVerticalGuideline"
+        app:layout_constraintTop_toTopOf="@id/tvResultConversion" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvResultConversion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="2.4356 EUR"
+        android:textSize="@dimen/standard_text"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/etAmountInput" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

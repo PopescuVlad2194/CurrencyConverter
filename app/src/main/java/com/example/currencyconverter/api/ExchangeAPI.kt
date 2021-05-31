@@ -10,13 +10,13 @@ import retrofit2.http.Path
 interface ExchangeAPI {
 
     @GET("{apiKey}/latest/EUR")
-    suspend fun getExchangeRate(
+    suspend fun getExchangeRates(
         @Path("apiKey")
         apiKey: String = API_KEY
     ): Response<ExchangeResponse>
 
     @GET("{apiKey}/pair/{fromCurrency}/{toCurrency}")
-    suspend fun getCurrency(
+    suspend fun convert(
         @Path("apiKey")
         apiKey: String = API_KEY,
         @Path("fromCurrency")

@@ -2,7 +2,7 @@ package com.example.currencyconverter.models
 
 data class ExchangeResponse(
     val base_code: String,
-    val conversion_rates: ConversionRates,
+    val conversion_rates: HashMap<String, Double> ,
     val documentation: String,
     val result: String,
     val terms_of_use: String,

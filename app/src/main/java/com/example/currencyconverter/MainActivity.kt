@@ -2,13 +2,16 @@ package com.example.currencyconverter
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.currencyconverter.repository.ExchangeRepository
 import com.example.currencyconverter.ui.ExchangeViewModel
 import com.example.currencyconverter.ui.ExchangeViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,9 +21,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val repository = ExchangeRepository()
-        val viewModelProviderFactory = ExchangeViewModelProviderFactory(repository)
+        val exchangeRepository = ExchangeRepository()
+        val viewModelProviderFactory = ExchangeViewModelProviderFactory(exchangeRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(ExchangeViewModel::class.java)
-        bottomNavigationView.setupWithNavController(navHostFragment.findNavController())
+//        viewModel.exchangeRates.observe(this, {
+//
+//        })
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentHolder) as NavHostFragment
+        val navController = navHostFragment.navController
+        bottomNavigationView.setupWithNavController(navController)
     }
 }
