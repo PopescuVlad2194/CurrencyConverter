@@ -17,7 +17,20 @@
         tools:layout="@layout/fragment_converter" />
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.example.currencyconverter.ui.fragments.News"
+        android:name="com.example.currencyconverter.ui.fragments.NewsFragment"
         android:label="fragment_news"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_news" >
+        <action
+            android:id="@+id/action_newsFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.example.currencyconverter.ui.fragments.ArticleFragment"
+        android:label="fragment_article"
+        tools:layout="@layout/fragment_article" >
+        <argument
+            android:name="article"
+            app:argType="com.example.currencyconverter.models.Article" />
+    </fragment>
 </navigation>

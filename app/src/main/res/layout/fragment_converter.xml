@@ -6,25 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.ConverterFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvChangeFrom"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/selectChangeFrom"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Schimba din "
-        android:textSize="@dimen/standard_text"
-        app:layout_constraintBottom_toBottomOf="@id/btnChangeFrom"
-        app:layout_constraintStart_toStartOf="@id/leftVerticalGuideline"
-        app:layout_constraintTop_toTopOf="@id/btnChangeFrom" />
+        android:hint="Convert from"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintStart_toStartOf="@+id/leftVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/horizontalGuideline">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvChangeIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="In"
-        android:textSize="@dimen/standard_text"
-        app:layout_constraintBottom_toBottomOf="@id/btnChangeIn"
-        app:layout_constraintStart_toStartOf="@id/leftVerticalGuideline"
-        app:layout_constraintTop_toTopOf="@id/btnChangeIn" />
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="Select Coin" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftVerticalGuideline"
@@ -48,21 +50,27 @@
         app:layout_constraintGuide_begin="20dp" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnChangeFrom"
-        android:layout_width="120dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/selectChangeIn"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="RON"
+        android:hint="Convert to"
         app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
-        app:layout_constraintTop_toBottomOf="@id/horizontalGuideline" />
+        app:layout_constraintStart_toStartOf="@+id/leftVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/selectChangeFrom">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnChangeIn"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:text="EUR"
-        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
-        app:layout_constraintTop_toBottomOf="@id/btnChangeFrom" />
+        <AutoCompleteTextView
+            android:id="@+id/secondAutoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="Select Coin" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/btnInterchange"
@@ -70,8 +78,8 @@
         android:layout_height="50dp"
         android:src="@drawable/ic_btn_interchange"
         app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
-        app:layout_constraintStart_toStartOf="@id/btnChangeIn"
-        app:layout_constraintTop_toBottomOf="@id/btnChangeIn" />
+
+        app:layout_constraintTop_toBottomOf="@id/selectChangeIn" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSum"

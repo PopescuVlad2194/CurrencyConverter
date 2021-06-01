@@ -1,10 +1,7 @@
 package com.example.currencyconverter.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.currencyconverter.MainActivity
@@ -21,7 +18,7 @@ class ExchangeFragment : Fragment(R.layout.fragment_exchange) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MainActivity).viewModel
+        viewModel = (activity as MainActivity).exchangeViewModel
         setupRecyclerView()
 
         viewModel.coins.observe(viewLifecycleOwner, {

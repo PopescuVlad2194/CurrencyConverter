@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
 import com.example.currencyconverter.models.Coin
-import kotlinx.android.synthetic.main.exchange_item_row.view.*
+import kotlinx.android.synthetic.main.exchange_item_preview.view.*
 
 class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolder>() {
 
@@ -35,7 +35,7 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExchangeViewHolder {
         return ExchangeViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.exchange_item_row,
+                R.layout.exchange_item_preview,
                 parent,
                 false
             )
