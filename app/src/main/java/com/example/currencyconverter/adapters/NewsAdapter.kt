@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.currencyconverter.R
-import com.example.currencyconverter.models.Article
+import com.example.currencyconverter.models.news.Article
 import kotlinx.android.synthetic.main.news_item_preview.view.*
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {

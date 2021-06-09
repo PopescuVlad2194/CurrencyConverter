@@ -1,7 +1,7 @@
 package com.example.currencyconverter.api
 
-import com.example.currencyconverter.util.Constans.BASE_URL_EXCHANGE
-import com.example.currencyconverter.util.Constans.BASE_URL_NEWS
+import com.example.currencyconverter.util.Constants.BASE_URL_EXCHANGE
+import com.example.currencyconverter.util.Constants.BASE_URL_NEWS
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

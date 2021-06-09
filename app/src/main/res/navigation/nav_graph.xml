@@ -31,6 +31,6 @@
         tools:layout="@layout/fragment_article" >
         <argument
             android:name="article"
-            app:argType="com.example.currencyconverter.models.Article" />
+            app:argType="com.example.currencyconverter.models.news.Article" />
     </fragment>
 </navigation>

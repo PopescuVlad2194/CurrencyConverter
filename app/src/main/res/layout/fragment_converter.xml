@@ -11,7 +11,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Convert from"
+        android:hint="Schimba din"
+        android:paddingBottom="5dp"
         app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@id/horizontalGuideline">
@@ -23,8 +24,7 @@
             android:layout_weight="1"
             android:inputType="none"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="Select Coin" />
+            android:paddingBottom="16dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,7 +55,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Convert to"
+        android:hint="Schimba in"
         app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
         app:layout_constraintStart_toStartOf="@+id/leftVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@id/selectChangeFrom">
@@ -67,8 +67,7 @@
             android:layout_weight="1"
             android:inputType="none"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:text="Select Coin" />
+            android:paddingBottom="16dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,9 +75,9 @@
         android:id="@+id/btnInterchange"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:paddingTop="10dp"
         android:src="@drawable/ic_btn_interchange"
         app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
-
         app:layout_constraintTop_toBottomOf="@id/selectChangeIn" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -97,39 +96,52 @@
         android:layout_height="40dp"
         android:inputType="number"
         android:textAlignment="textStart"
-        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintEnd_toStartOf="@id/tvCurrentCoin"
         app:layout_constraintTop_toBottomOf="@id/btnInterchange" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCurrentCoin"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="RON"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@id/etAmountInput"
-        app:layout_constraintTop_toTopOf="@id/etAmountInput" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="Rezultat"
         android:textSize="@dimen/standard_text"
-        app:layout_constraintBottom_toBottomOf="@id/tvResultConversion"
         app:layout_constraintStart_toEndOf="@id/leftVerticalGuideline"
-        app:layout_constraintTop_toTopOf="@id/tvResultConversion" />
+        app:layout_constraintTop_toBottomOf="@id/etAmountInput" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvResultConversion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="2.4356 EUR"
+        android:paddingEnd="5dp"
         android:textSize="@dimen/standard_text"
-        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@id/tvResultCoin"
         app:layout_constraintTop_toBottomOf="@id/etAmountInput" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCurrentCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintTop_toTopOf="@id/etAmountInput" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvResultCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@id/rightVerticalGuideline"
+        app:layout_constraintStart_toStartOf="@id/tvCurrentCoin"
+        app:layout_constraintTop_toBottomOf="@id/tvCurrentCoin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

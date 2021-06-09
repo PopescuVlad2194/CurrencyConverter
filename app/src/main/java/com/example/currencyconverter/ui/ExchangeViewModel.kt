@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.currencyconverter.models.Coin
-import com.example.currencyconverter.models.ExchangeResponse
+import com.example.currencyconverter.models.exchange.Coin
+import com.example.currencyconverter.models.exchange.ConverterResponse
+import com.example.currencyconverter.models.exchange.ExchangeResponse
 import com.example.currencyconverter.repository.ExchangeRepository
 import com.example.currencyconverter.util.Resource
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class ExchangeViewModel(
 
     private val _coins: MutableLiveData<Resource<MutableList<Coin>>> = MutableLiveData()
     val coins: LiveData<Resource<MutableList<Coin>>> = _coins
+    val converter: MutableLiveData<Resource<String>> = MutableLiveData()
 
     init {
         getExchangeRates()
@@ -25,10 +27,26 @@ class ExchangeViewModel(
     private fun getExchangeRates() = viewModelScope.launch {
         _coins.postValue(Resource.Loading())
         val response = exchangeRepository.getExchangeRates()
-        _coins.postValue(handleNetworkResponse(response))
+        _coins.postValue(handleExchangeResponse(response))
     }
 
-    private fun handleNetworkResponse(response: Response<ExchangeResponse>) : Resource<MutableList<Coin>> {
+    fun convert(selectedCoin: String, desiredCoin: String) = viewModelScope.launch {
+        converter.postValue(Resource.Loading())
+        val response = exchangeRepository.convert(selectedCoin, desiredCoin)
+        converter.postValue(handleConvertResponse(response))
+    }
+
+
+    private fun handleConvertResponse(response: Response<ConverterResponse>): Resource<String> {
+        if (response.isSuccessful) {
+            response.body()?.let {
+                return Resource.Success(it.conversion_rate.toString())
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun handleExchangeResponse(response: Response<ExchangeResponse>) : Resource<MutableList<Coin>> {
         if(response.isSuccessful) {
             response.body()?.let {
                 return Resource.Success(extractExchangeRates(it))

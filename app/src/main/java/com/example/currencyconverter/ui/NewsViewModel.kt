@@ -3,7 +3,7 @@ package com.example.currencyconverter.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.currencyconverter.models.NewsResponse
+import com.example.currencyconverter.models.news.NewsResponse
 import com.example.currencyconverter.repository.NewsRepository
 import com.example.currencyconverter.util.Resource
 import kotlinx.coroutines.launch
