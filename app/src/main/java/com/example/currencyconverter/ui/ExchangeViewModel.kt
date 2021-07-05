@@ -1,5 +1,6 @@
 package com.example.currencyconverter.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import com.example.currencyconverter.models.exchange.Coin
 import com.example.currencyconverter.models.exchange.ConverterResponse
 import com.example.currencyconverter.models.exchange.ExchangeResponse
 import com.example.currencyconverter.repository.ExchangeRepository
+import com.example.currencyconverter.util.Constants.EXCHANGE_COIN_REFERENCE
 import com.example.currencyconverter.util.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -58,8 +60,16 @@ class ExchangeViewModel(
     private fun extractExchangeRates(response: ExchangeResponse) : MutableList<Coin> {
         val list: MutableList<Coin> = arrayListOf()
         for(item in response.conversion_rates) {
-           list.add(Coin(item.key, item.value))
+            if(item.key != EXCHANGE_COIN_REFERENCE) {
+                list.add(Coin(item.key, item.value))
+            }
         }
-        return list
+        val sortedList = list.sortedWith(
+            compareByDescending<Coin> { it.priority }.thenBy{it.name}
+        )
+
+
+        return sortedList as MutableList<Coin>
     }
+
 }

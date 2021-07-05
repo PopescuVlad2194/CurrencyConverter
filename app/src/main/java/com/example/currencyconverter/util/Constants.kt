@@ -6,4 +6,5 @@ object Constants {
     const val BASE_URL_EXCHANGE = "https://v6.exchangerate-api.com/v6/"
     const val BASE_URL_NEWS = "https://newsapi.org/"
     const val TAG = "debug"
+    const val EXCHANGE_COIN_REFERENCE = "RON"
 }
