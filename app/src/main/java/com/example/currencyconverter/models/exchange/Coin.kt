@@ -1,6 +1,14 @@
 package com.example.currencyconverter.models.exchange
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(
+    tableName = "coins"
+)
 data class Coin(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null,
     val name: String,
     val value: Double
 ) {

@@ -1,15 +1,12 @@
 package com.example.currencyconverter.adapters
 
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
+import android.util.Log
+import android.view.*
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.engine.Resource
 import com.example.currencyconverter.R
 import com.example.currencyconverter.models.exchange.Coin
 import kotlinx.android.synthetic.main.exchange_item_preview.view.*
@@ -63,6 +60,17 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
             val result = 1 / exchange.value!!.toFloat()
             val temp = "$result LEI"
             bank_currency_value.text = temp
+
+            setOnCreateContextMenuListener { menu, v, menuInfo ->
+                menu.add(R.string.add_to_favorites).setOnMenuItemClickListener {
+                    Log.d("CLICK", "Item added to favorites pos $position clicked")
+                     true
+                }
+                menu.add(R.string.remove_from_favorites).setOnMenuItemClickListener {
+                    Log.d("CLICK", "Item removed from favorites pos $position clicked")
+                     true
+                }
+            }
         }
     }
 

@@ -61,7 +61,7 @@ class ExchangeViewModel(
         val list: MutableList<Coin> = arrayListOf()
         for(item in response.conversion_rates) {
             if(item.key != EXCHANGE_COIN_REFERENCE) {
-                list.add(Coin(item.key, item.value))
+                list.add(Coin(null, item.key, item.value))
             }
         }
         val sortedList = list.sortedWith(
