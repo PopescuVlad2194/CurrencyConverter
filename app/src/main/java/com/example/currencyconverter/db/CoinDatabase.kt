@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.currencyconverter.models.exchange.Coin
+import com.example.currencyconverter.models.exchange.Favorite
 
 @Database(
-    entities = [Coin::class],
+    entities = [Favorite::class],
     version = 1
 )
 abstract class CoinDatabase : RoomDatabase(){

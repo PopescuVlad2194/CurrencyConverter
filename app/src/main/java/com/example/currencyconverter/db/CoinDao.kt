@@ -3,17 +3,18 @@ package com.example.currencyconverter.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.currencyconverter.models.exchange.Coin
+import com.example.currencyconverter.models.exchange.Favorite
 
 @Dao
 interface CoinDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(coin: Coin): Long
+    suspend fun addFavorite(coin: Favorite)
 
-    @Query("SELECT * FROM coins WHERE favorite = 'true'")
-    fun getFavoriteCoins(): LiveData<List<Coin>>
+    @Query("SELECT * FROM favorites")
+    fun getFavorites(): LiveData<MutableList<Favorite>>
 
     @Delete
-    suspend fun deleteFavoriteCoin(coin: Coin)
+    suspend fun deleteFavorite(coin: Favorite)
 
 }

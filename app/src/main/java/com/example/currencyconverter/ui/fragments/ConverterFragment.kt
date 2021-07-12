@@ -7,13 +7,18 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import com.example.currencyconverter.ExchangeViewModel
 import com.example.currencyconverter.MainActivity
 import com.example.currencyconverter.R
-import com.example.currencyconverter.ui.ExchangeViewModel
 import com.example.currencyconverter.util.Constants.TAG
 import com.example.currencyconverter.util.Resource
 import kotlinx.android.synthetic.main.fragment_converter.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 
 
@@ -47,30 +52,23 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
                                 tvResultCoin.text = coinList[position]
                             }
 
-                        etAmountInput.addTextChangedListener(object : TextWatcher {
-                            override fun afterTextChanged(input: Editable) {
+                        var job: Job? = null
+                        etAmountInput.addTextChangedListener { editable ->
+                            job?.cancel()
+                            job = MainScope().launch {
+                                delay(500L)
                                 try {
-                                    val number = input.toString()
+                                    val number = editable.toString()
                                     val selectedCoin = autoCompleteTextView.text.toString()
-                                    val desiredCoin = secondAutoCompleteTextView.text.toString()
+                                    val desireCoin = secondAutoCompleteTextView.text.toString()
                                     if (checkRequirements(number)) {
-                                        initializeConvertCall(number, selectedCoin, desiredCoin)
+                                        initializeConvertCall(number, selectedCoin, desireCoin)
                                     }
                                 } catch (exception: NumberFormatException) {
                                     Log.e(TAG, exception.toString())
                                 }
                             }
-
-                            override fun beforeTextChanged(
-                                s: CharSequence, start: Int,
-                                count: Int, after: Int
-                            ) {}
-
-                            override fun onTextChanged(
-                                s: CharSequence, start: Int,
-                                before: Int, count: Int
-                            ) {}
-                        })
+                        }
                     }
                 }
                 is Resource.Error -> {

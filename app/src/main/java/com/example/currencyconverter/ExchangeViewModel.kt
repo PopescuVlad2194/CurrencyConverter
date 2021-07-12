@@ -1,6 +1,7 @@
-package com.example.currencyconverter.ui
+package com.example.currencyconverter
 
-import android.util.Log
+
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.currencyconverter.models.exchange.Coin
 import com.example.currencyconverter.models.exchange.ConverterResponse
 import com.example.currencyconverter.models.exchange.ExchangeResponse
+import com.example.currencyconverter.models.exchange.Favorite
 import com.example.currencyconverter.repository.ExchangeRepository
 import com.example.currencyconverter.util.Constants.EXCHANGE_COIN_REFERENCE
 import com.example.currencyconverter.util.Resource
@@ -24,7 +26,14 @@ class ExchangeViewModel(
 
     init {
         getExchangeRates()
+        prepareFavorites()
     }
+
+    private fun prepareFavorites() = viewModelScope.launch {
+
+
+    }
+
 
     private fun getExchangeRates() = viewModelScope.launch {
         _coins.postValue(Resource.Loading())
@@ -32,7 +41,7 @@ class ExchangeViewModel(
         _coins.postValue(handleExchangeResponse(response))
     }
 
-    fun convert(selectedCoin: String, desiredCoin: String) = viewModelScope.launch {
+    private fun convert(selectedCoin: String, desiredCoin: String) = viewModelScope.launch {
         converter.postValue(Resource.Loading())
         val response = exchangeRepository.convert(selectedCoin, desiredCoin)
         converter.postValue(handleConvertResponse(response))
@@ -61,15 +70,23 @@ class ExchangeViewModel(
         val list: MutableList<Coin> = arrayListOf()
         for(item in response.conversion_rates) {
             if(item.key != EXCHANGE_COIN_REFERENCE) {
-                list.add(Coin(null, item.key, item.value))
+                list.add(Coin(item.key, item.value))
             }
         }
         val sortedList = list.sortedWith(
             compareByDescending<Coin> { it.priority }.thenBy{it.name}
         )
-
-
         return sortedList as MutableList<Coin>
     }
 
+
+    private fun addFavorite(coin: Favorite) = viewModelScope.launch {
+        exchangeRepository.addFavorite(coin)
+    }
+
+    private fun getFavorites() = exchangeRepository.getFavorites()
+
+    private fun deleteFavorite(coin: Favorite) = viewModelScope.launch {
+        exchangeRepository.deleteFavorite(coin)
+    }
 }
