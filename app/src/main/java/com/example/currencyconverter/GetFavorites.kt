@@ -1,8 +1,8 @@
 package com.example.currencyconverter
 
-import com.example.currencyconverter.models.exchange.Favorite
+import com.example.currencyconverter.models.exchange.FavoriteCoin
 
 interface TakeFavorites {
 
-    fun takeFavorites(list: List<Favorite>) : List<String>
+    fun takeFavorites(list: List<FavoriteCoin>) : List<String>
 }

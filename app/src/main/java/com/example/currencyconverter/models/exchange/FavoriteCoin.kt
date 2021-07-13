@@ -4,7 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "favorites")
-data class Favorite(
+data class FavoriteCoin(
     @PrimaryKey
-    var name: String
+    var name: String,
+    var isFavorite: Boolean
 )

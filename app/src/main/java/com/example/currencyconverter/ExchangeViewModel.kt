@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.currencyconverter.models.exchange.Coin
 import com.example.currencyconverter.models.exchange.ConverterResponse
 import com.example.currencyconverter.models.exchange.ExchangeResponse
-import com.example.currencyconverter.models.exchange.Favorite
+import com.example.currencyconverter.models.exchange.FavoriteCoin
 import com.example.currencyconverter.repository.ExchangeRepository
 import com.example.currencyconverter.util.Constants.EXCHANGE_COIN_REFERENCE
 import com.example.currencyconverter.util.Resource
@@ -23,15 +23,14 @@ class ExchangeViewModel(
     private val _coins: MutableLiveData<Resource<MutableList<Coin>>> = MutableLiveData()
     val coins: LiveData<Resource<MutableList<Coin>>> = _coins
     val converter: MutableLiveData<Resource<String>> = MutableLiveData()
+    val favoriteCoins: MutableLiveData<MutableList<FavoriteCoin>> = MutableLiveData()
 
     init {
         getExchangeRates()
-        prepareFavorites()
     }
 
-    private fun prepareFavorites() = viewModelScope.launch {
-
-
+     fun prepareFavorites() = viewModelScope.launch {
+        exchangeRepository.getFavorites()
     }
 
 
@@ -41,7 +40,7 @@ class ExchangeViewModel(
         _coins.postValue(handleExchangeResponse(response))
     }
 
-    private fun convert(selectedCoin: String, desiredCoin: String) = viewModelScope.launch {
+    fun convert(selectedCoin: String, desiredCoin: String) = viewModelScope.launch {
         converter.postValue(Resource.Loading())
         val response = exchangeRepository.convert(selectedCoin, desiredCoin)
         converter.postValue(handleConvertResponse(response))
@@ -80,13 +79,13 @@ class ExchangeViewModel(
     }
 
 
-    private fun addFavorite(coin: Favorite) = viewModelScope.launch {
+    fun addFavorite(coin: FavoriteCoin) = viewModelScope.launch {
         exchangeRepository.addFavorite(coin)
     }
 
     private fun getFavorites() = exchangeRepository.getFavorites()
 
-    private fun deleteFavorite(coin: Favorite) = viewModelScope.launch {
+    fun deleteFavorite(coin: FavoriteCoin) = viewModelScope.launch {
         exchangeRepository.deleteFavorite(coin)
     }
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.currencyconverter.R
 import com.example.currencyconverter.models.exchange.Coin
+import com.example.currencyconverter.models.exchange.FavoriteCoin
 import com.example.currencyconverter.util.Constants.TAG
 import kotlinx.android.synthetic.main.exchange_item_preview.view.*
 import java.util.*
@@ -20,7 +21,7 @@ import java.util.*
 
 class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolder>() {
 
-    var onClick: (() -> Unit)? = null
+    var onClick: ((FavoriteCoin) -> Unit)? = null
 
     inner class ExchangeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -66,28 +67,32 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
             val value = bank_currency_id.text.toString().lowercase(Locale.ENGLISH)
             val imageName = "flag_$value"
             var isFavorite = favoritesList.contains(exchange.name)
-            getFavoriteIndex(isFavorite, exchange)
+
 
             setItemData(imageName, exchange)
 
             checkFavoriteStatus(isFavorite)
 
-            favorites.setOnClickListener {
-//                onClick()
-//                if (isFavorite) {
-//                    it.background = ResourcesCompat.getDrawable(
-//                        resources,
-//                        R.drawable.ic_add_favorites,
-//                        context?.theme)
-//                    isFavorite = false
-//                } else {
-//                    it.background = ResourcesCompat.getDrawable(
-//                        resources,
-//                        R.drawable.ic_remove_favorites,
-//                        context?.theme)
-//                    isFavorite = true
-//                }
+            favorites.setOnClickListener { view ->
+                if (isFavorite) {
+                    view.background = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_add_favorites,
+                        context?.theme)
+                    isFavorite = false
+                } else {
+                    view.background = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_remove_favorites,
+                        context?.theme)
+                    isFavorite = true
+                }
 
+                onClick?.let  {
+                    Log.d(TAG, "sending FavoriteCoin")
+                    it.invoke(FavoriteCoin(exchange.name, isFavorite))
+
+                }
             }
 
             setOnCreateContextMenuListener { menu, _, _ ->
@@ -121,16 +126,6 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
         bank_currency_value.text = temp
     }
 
-    private fun getFavoriteIndex(
-        isFavorite: Boolean,
-        exchange: Coin
-    ) {
-        if (isFavorite) {
-            val favoritesListIndex = favoritesList.indexOf(exchange.name)
-            Log.d(TAG, "the item id : $favoritesListIndex")
-        }
-    }
-
     private fun View.checkFavoriteStatus(isFavorite: Boolean) {
         if (isFavorite) {
             favorites.background = ResourcesCompat.getDrawable(
@@ -147,10 +142,7 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
         }
     }
 
-
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
-
-
 }

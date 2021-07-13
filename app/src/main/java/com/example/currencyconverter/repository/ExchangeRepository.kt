@@ -2,7 +2,7 @@ package com.example.currencyconverter.repository
 
 import com.example.currencyconverter.api.RetrofitInstance
 import com.example.currencyconverter.db.CoinDatabase
-import com.example.currencyconverter.models.exchange.Favorite
+import com.example.currencyconverter.models.exchange.FavoriteCoin
 import com.example.currencyconverter.util.Constants
 
 class ExchangeRepository(
@@ -18,9 +18,9 @@ class ExchangeRepository(
             desiredCoin
     )
 
-    suspend fun addFavorite(coin: Favorite) = db.getCoinDao().addFavorite(coin)
+    suspend fun addFavorite(coin: FavoriteCoin) = db.getCoinDao().addFavorite(coin)
 
     fun getFavorites() = db.getCoinDao().getFavorites()
 
-    suspend fun deleteFavorite(coin: Favorite) = db.getCoinDao().deleteFavorite(coin)
+    suspend fun deleteFavorite(coin: FavoriteCoin) = db.getCoinDao().deleteFavorite(coin)
 }
