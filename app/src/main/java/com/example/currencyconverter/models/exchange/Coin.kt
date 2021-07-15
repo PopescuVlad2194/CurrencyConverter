@@ -5,14 +5,11 @@ data class Coin(
     var value: Double,
     var favorite: Boolean = false
 ) {
-    var priority: Int = 0
+    val priority: Int
         get() {
-            priority = when(name) {
-                "RON" -> 3
-                "EUR" -> 2
-                "USD" -> 1
-                else -> 0
+            if (favorite) {
+                return 1
             }
-            return field
+            return 0
         }
 }

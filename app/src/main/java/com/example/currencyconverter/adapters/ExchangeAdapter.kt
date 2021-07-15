@@ -1,7 +1,5 @@
 package com.example.currencyconverter.adapters
 
-
-
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +15,6 @@ import com.example.currencyconverter.models.exchange.FavoriteCoin
 import com.example.currencyconverter.util.Constants.TAG
 import kotlinx.android.synthetic.main.exchange_item_preview.view.*
 import java.util.*
-
 
 class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolder>() {
 
@@ -43,10 +40,12 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    private var favoritesList = emptyList<String>()
+    private var favoritesList = mutableListOf<String>()
 
-    fun takeFavorites(list: List<String>) {
-         favoritesList = list
+    fun takeFavorites(list: List<FavoriteCoin>) {
+        for (item in list) {
+            favoritesList.add(item.name)
+        }
     }
 
 
@@ -68,10 +67,9 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
             val imageName = "flag_$value"
             var isFavorite = favoritesList.contains(exchange.name)
 
+            setItemContent(imageName, exchange)
 
-            setItemData(imageName, exchange)
-
-            checkFavoriteStatus(isFavorite)
+            checkFavoriteStatus(isFavorite, exchange)
 
             favorites.setOnClickListener { view ->
                 if (isFavorite) {
@@ -91,17 +89,24 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
                 onClick?.let  {
                     Log.d(TAG, "sending FavoriteCoin")
                     it.invoke(FavoriteCoin(exchange.name, isFavorite))
-
                 }
             }
 
             setOnCreateContextMenuListener { menu, _, _ ->
                 menu.add(R.string.add_to_favorites).setOnMenuItemClickListener {
-                     Toast.makeText(context, "${exchange.name} added to favorites", Toast.LENGTH_SHORT).show()
+                     Toast.makeText(
+                         context,
+                         "${exchange.name} added to favorites",
+                         Toast.LENGTH_SHORT
+                     ).show()
                      true
                 }
                 menu.add(R.string.remove_from_favorites).setOnMenuItemClickListener {
-                     Toast.makeText(context, "${exchange.name} removed from favorites", Toast.LENGTH_SHORT).show()
+                     Toast.makeText(
+                         context,
+                         "${exchange.name} removed from favorites",
+                         Toast.LENGTH_SHORT
+                     ).show()
                      true
                 }
             }
@@ -109,7 +114,7 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
     }
 
 
-    private fun View.setItemData(
+    private fun View.setItemContent(
         imageName: String,
         exchange: Coin
     ) {
@@ -126,13 +131,14 @@ class ExchangeAdapter() : RecyclerView.Adapter<ExchangeAdapter.ExchangeViewHolde
         bank_currency_value.text = temp
     }
 
-    private fun View.checkFavoriteStatus(isFavorite: Boolean) {
+    private fun View.checkFavoriteStatus(isFavorite: Boolean, exchange: Coin) {
         if (isFavorite) {
             favorites.background = ResourcesCompat.getDrawable(
                 resources,
                 R.drawable.ic_remove_favorites,
                 context?.theme
             )
+
         } else {
             favorites.background = ResourcesCompat.getDrawable(
                 resources,

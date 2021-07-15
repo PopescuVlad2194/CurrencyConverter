@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.currencyconverter.*
+import com.example.currencyconverter.ExchangeViewModel
+import com.example.currencyconverter.MainActivity
+import com.example.currencyconverter.R
 import com.example.currencyconverter.adapters.ExchangeAdapter
+import com.example.currencyconverter.models.exchange.Coin
 import com.example.currencyconverter.models.exchange.FavoriteCoin
 import com.example.currencyconverter.util.Constants.TAG
 import com.example.currencyconverter.util.Resource
 import kotlinx.android.synthetic.main.fragment_exchange.*
+import kotlin.coroutines.coroutineContext
 
-class ExchangeFragment : Fragment(R.layout.fragment_exchange), TakeFavorites {
+class ExchangeFragment : Fragment(R.layout.fragment_exchange) {
 
     lateinit var viewModel: ExchangeViewModel
     lateinit var exchangeAdapter: ExchangeAdapter
@@ -22,7 +27,6 @@ class ExchangeFragment : Fragment(R.layout.fragment_exchange), TakeFavorites {
         viewModel = (activity as MainActivity).exchangeViewModel
         setupRecyclerView()
 
-        val favoritesResponse = viewModel.prepareFavorites()
         exchangeAdapter.onClick = {
             when (it.isFavorite) {
                 true -> viewModel.addFavorite(it)
@@ -30,14 +34,23 @@ class ExchangeFragment : Fragment(R.layout.fragment_exchange), TakeFavorites {
             }
         }
 
-//        val resultList = takeFavorites(favoritesResponse)
+
+        viewModel.getFavorites().observe(viewLifecycleOwner, { favoriteCoins ->
+            exchangeAdapter.takeFavorites(favoriteCoins)
+
+            val currentCoins = viewModel.coins.value?.data
+            val priorityList = currentCoins?.let { setPriorityToFavorites(it, favoriteCoins) }
+            if (priorityList != null) {
+                val result = viewModel.sortListByFavorites(priorityList)
+                exchangeAdapter.differ.submitList(result)
+            }
+        })
+
 
         viewModel.coins.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success<*> -> {
                     response.data.let { coins ->
-
-//                        exchangeAdapter.takeFavorites(resultList)
                         exchangeAdapter.differ.submitList(coins)
                     }
                 }
@@ -48,20 +61,27 @@ class ExchangeFragment : Fragment(R.layout.fragment_exchange), TakeFavorites {
         }
     }
 
+    private fun setPriorityToFavorites(
+        currentCoins: MutableList<Coin>,
+        favoriteList: List<FavoriteCoin>
+    ) : MutableList<Coin>{
+        for (item in currentCoins) {
+            for (secondItem in favoriteList) {
+                if (secondItem.name == item.name) {
+                    item.favorite = true
+                    Log.d(TAG, "element ${item.name} changed priority to ${item.priority}")
+                }
+            }
+        }
+        return currentCoins
+    }
+
+
     private fun setupRecyclerView() {
         exchangeAdapter = ExchangeAdapter()
         fragmentExchangeRV.apply {
             adapter = exchangeAdapter
             layoutManager = LinearLayoutManager(activity)
         }
-    }
-
-    override fun takeFavorites(list: List<FavoriteCoin>): List<String> {
-        val newList: MutableList<String> = mutableListOf()
-        for (element in list) {
-            newList.add(element.name)
-            Log.d(TAG, element.name)
-        }
-        return newList
     }
 }

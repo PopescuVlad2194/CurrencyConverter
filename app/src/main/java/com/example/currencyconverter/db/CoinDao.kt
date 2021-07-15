@@ -12,7 +12,7 @@ interface CoinDao {
     suspend fun addFavorite(coin: FavoriteCoin)
 
     @Query("SELECT * FROM favorites")
-    fun getFavorites(): MutableLiveData<MutableList<FavoriteCoin>>
+    fun getFavorites(): LiveData<List<FavoriteCoin>>
 
     @Delete
     suspend fun deleteFavorite(coin: FavoriteCoin)

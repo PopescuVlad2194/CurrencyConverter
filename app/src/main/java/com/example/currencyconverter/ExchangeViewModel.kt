@@ -19,20 +19,13 @@ import retrofit2.Response
 class ExchangeViewModel(
     private val exchangeRepository: ExchangeRepository
 ) : ViewModel() {
-
     private val _coins: MutableLiveData<Resource<MutableList<Coin>>> = MutableLiveData()
     val coins: LiveData<Resource<MutableList<Coin>>> = _coins
     val converter: MutableLiveData<Resource<String>> = MutableLiveData()
-    val favoriteCoins: MutableLiveData<MutableList<FavoriteCoin>> = MutableLiveData()
 
     init {
         getExchangeRates()
     }
-
-     fun prepareFavorites() = viewModelScope.launch {
-        exchangeRepository.getFavorites()
-    }
-
 
     private fun getExchangeRates() = viewModelScope.launch {
         _coins.postValue(Resource.Loading())
@@ -45,7 +38,6 @@ class ExchangeViewModel(
         val response = exchangeRepository.convert(selectedCoin, desiredCoin)
         converter.postValue(handleConvertResponse(response))
     }
-
 
     private fun handleConvertResponse(response: Response<ConverterResponse>): Resource<String> {
         if (response.isSuccessful) {
@@ -67,15 +59,21 @@ class ExchangeViewModel(
 
     private fun extractExchangeRates(response: ExchangeResponse) : MutableList<Coin> {
         val list: MutableList<Coin> = arrayListOf()
+
         for(item in response.conversion_rates) {
             if(item.key != EXCHANGE_COIN_REFERENCE) {
-                list.add(Coin(item.key, item.value))
+                list.add(Coin(item.key, item.value ))
+                }
             }
-        }
-        val sortedList = list.sortedWith(
-            compareByDescending<Coin> { it.priority }.thenBy{it.name}
-        )
+
+        val sortedList = sortListByFavorites(list)
         return sortedList as MutableList<Coin>
+    }
+
+    fun sortListByFavorites(list: MutableList<Coin>): List<Coin> {
+        return list.sortedWith(
+            compareByDescending<Coin> { it.priority }.thenBy { it.name }
+        )
     }
 
 
@@ -83,7 +81,7 @@ class ExchangeViewModel(
         exchangeRepository.addFavorite(coin)
     }
 
-    private fun getFavorites() = exchangeRepository.getFavorites()
+    fun getFavorites() = exchangeRepository.getFavorites()
 
     fun deleteFavorite(coin: FavoriteCoin) = viewModelScope.launch {
         exchangeRepository.deleteFavorite(coin)
