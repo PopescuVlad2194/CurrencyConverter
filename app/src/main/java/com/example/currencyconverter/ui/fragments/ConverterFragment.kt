@@ -1,8 +1,6 @@
 package com.example.currencyconverter.ui.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -30,6 +28,7 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).exchangeViewModel
 
+        
         viewModel.coins.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Success -> {
@@ -40,14 +39,14 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
                             R.layout.dropdown_item,
                             coinList
                         )
-                        autoCompleteTextView.setAdapter(arrayAdapter)
-                        secondAutoCompleteTextView.setAdapter(arrayAdapter)
+                        mainCoin.setAdapter(arrayAdapter)
+                        secondCoin.setAdapter(arrayAdapter)
 
-                        autoCompleteTextView.onItemClickListener =
+                        mainCoin.onItemClickListener =
                             AdapterView.OnItemClickListener { _, _, position, _ ->
                                 tvCurrentCoin.text = coinList[position]
                             }
-                        secondAutoCompleteTextView.onItemClickListener =
+                        secondCoin.onItemClickListener =
                             AdapterView.OnItemClickListener { _, _, position, _ ->
                                 tvResultCoin.text = coinList[position]
                             }
@@ -59,8 +58,8 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
                                 delay(500L)
                                 try {
                                     val number = editable.toString()
-                                    val selectedCoin = autoCompleteTextView.text.toString()
-                                    val desireCoin = secondAutoCompleteTextView.text.toString()
+                                    val selectedCoin = mainCoin.text.toString()
+                                    val desireCoin = secondCoin.text.toString()
                                     if (checkRequirements(number)) {
                                         initializeConvertCall(number, selectedCoin, desireCoin)
                                     }
@@ -98,8 +97,8 @@ class ConverterFragment : Fragment(R.layout.fragment_converter) {
     }
 
     private fun checkRequirements(number: String): Boolean {
-        return autoCompleteTextView.text.toString().isNotEmpty() &&
-                secondAutoCompleteTextView.text.toString().isNotEmpty() &&
+        return mainCoin.text.toString().isNotEmpty() &&
+                secondCoin.text.toString().isNotEmpty() &&
                 number.isNotEmpty()
     }
 }

@@ -33,5 +33,4 @@ class NewsViewModel(
         }
         return Resource.Error(response.message())
     }
-
 }

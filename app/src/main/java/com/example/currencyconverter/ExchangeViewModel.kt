@@ -1,7 +1,5 @@
 package com.example.currencyconverter
 
-
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,6 +20,8 @@ class ExchangeViewModel(
     private val _coins: MutableLiveData<Resource<MutableList<Coin>>> = MutableLiveData()
     val coins: LiveData<Resource<MutableList<Coin>>> = _coins
     val converter: MutableLiveData<Resource<String>> = MutableLiveData()
+    private val _sortedListByFavorites: MutableLiveData<MutableList<Coin>> = MutableLiveData()
+    val sortedListByFavorites: LiveData<MutableList<Coin>> = _sortedListByFavorites
 
     init {
         getExchangeRates()
@@ -74,6 +74,20 @@ class ExchangeViewModel(
         return list.sortedWith(
             compareByDescending<Coin> { it.priority }.thenBy { it.name }
         )
+    }
+
+    fun updateCoinStatus(favoriteCoin: FavoriteCoin) {
+        val currentCoins = _coins.value?.data!!
+            for (element in currentCoins) {
+                if (element.name == favoriteCoin.name) {
+                    element.favorite = favoriteCoin.isFavorite
+                }
+            }
+
+    }
+
+    fun updateLiveDataFavorites(list: MutableList<Coin>) = viewModelScope.launch {
+        _sortedListByFavorites.postValue(list)
     }
 
 
