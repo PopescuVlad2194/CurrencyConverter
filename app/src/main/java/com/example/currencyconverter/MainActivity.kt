@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.currencyconverter.db.ArticleDatabase
 import com.example.currencyconverter.db.CoinDatabase
 import com.example.currencyconverter.repository.ExchangeRepository
 import com.example.currencyconverter.repository.NewsRepository
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val newsRepository = NewsRepository()
+        val newsRepository = NewsRepository(ArticleDatabase(this))
         val newsViewModelProviderFactory = NewsViewModelProviderFactory(newsRepository)
         newsViewModel = ViewModelProvider(this, newsViewModelProviderFactory).get(NewsViewModel::class.java)
 

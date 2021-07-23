@@ -1,7 +1,5 @@
 package com.example.currencyconverter
 
-
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.currencyconverter.models.exchange.Coin
 import com.example.currencyconverter.models.exchange.ConverterResponse
 import com.example.currencyconverter.models.exchange.ExchangeResponse
-import com.example.currencyconverter.models.exchange.FavoriteCoin
 import com.example.currencyconverter.repository.ExchangeRepository
 import com.example.currencyconverter.util.Constants.EXCHANGE_COIN_REFERENCE
 import com.example.currencyconverter.util.Resource
@@ -22,6 +19,7 @@ class ExchangeViewModel(
     private val _coins: MutableLiveData<Resource<MutableList<Coin>>> = MutableLiveData()
     val coins: LiveData<Resource<MutableList<Coin>>> = _coins
     val converter: MutableLiveData<Resource<String>> = MutableLiveData()
+    val favoriteListConverter : MutableLiveData<MutableList<Coin>> = MutableLiveData()
 
     init {
         getExchangeRates()
@@ -62,28 +60,56 @@ class ExchangeViewModel(
 
         for(item in response.conversion_rates) {
             if(item.key != EXCHANGE_COIN_REFERENCE) {
-                list.add(Coin(item.key, item.value ))
-                }
+                list.add(Coin(item.key, item.value, false))
             }
+        }
 
         val sortedList = sortListByFavorites(list)
         return sortedList as MutableList<Coin>
     }
 
-    fun sortListByFavorites(list: MutableList<Coin>): List<Coin> {
+    private fun sortListByFavorites(list: MutableList<Coin>): List<Coin> {
         return list.sortedWith(
-            compareByDescending<Coin> { it.priority }.thenBy { it.name }
+            compareByDescending<Coin> { it.favorite }.thenBy { it.name }
         )
     }
 
+    fun updateFavoriteListConverter(list: List<Coin>) {
+        favoriteListConverter.postValue(list as MutableList<Coin>)
+    }
 
-    fun addFavorite(coin: FavoriteCoin) = viewModelScope.launch {
+    fun sortListByFavorites(
+        list: MutableList<Coin>,
+        favorites: List<Coin>
+    ) : List<Coin> {
+        for (element in list) {
+            for (favoriteElement in favorites) {
+                if (element.name == favoriteElement.name) {
+                    element.favorite = favoriteElement.favorite
+                }
+            }
+        }
+        return list.sortedWith(
+            compareByDescending<Coin> { it.favorite }.thenBy { it.name }
+        )
+    }
+
+    fun updateCoinStatus(favoriteCoin: Coin) {
+        val currentCoins = _coins.value?.data!!
+        for (element in currentCoins) {
+            if (element.name == favoriteCoin.name) {
+                element.favorite = favoriteCoin.favorite
+            }
+        }
+    }
+
+    fun addFavorite(coin: Coin) = viewModelScope.launch {
         exchangeRepository.addFavorite(coin)
     }
 
     fun getFavorites() = exchangeRepository.getFavorites()
 
-    fun deleteFavorite(coin: FavoriteCoin) = viewModelScope.launch {
+    fun deleteFavorite(coin: Coin) = viewModelScope.launch {
         exchangeRepository.deleteFavorite(coin)
     }
 }

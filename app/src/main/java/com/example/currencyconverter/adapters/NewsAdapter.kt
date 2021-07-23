@@ -1,5 +1,6 @@
 package com.example.currencyconverter.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,13 +38,18 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         )
     }
 
-    private var onItemClickListener: ((Article) -> Unit)?= null
+    private var onItemClickListener: ((Article) -> Unit)? = null
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position]
         holder.itemView.apply {
             Glide.with(this).load(article.urlToImage).into(ivArticleImage)
             tvSource.text = article.source.name
+            if (article.seen) {
+                tvTitle.setTextColor(Color.parseColor("#C58AF9"))
+            } else {
+                tvTitle.setTextColor(Color.parseColor("#000000"))
+            }
             tvTitle.text = article.title
             tvDescription.text = article.description
             tvPublishedAt.text = article.publishedAt

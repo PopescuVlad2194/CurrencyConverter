@@ -1,15 +1,12 @@
 package com.example.currencyconverter.models.exchange
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "favorites")
 data class Coin(
+    @PrimaryKey
     var name: String,
     var value: Double,
     var favorite: Boolean = false
-) {
-    val priority: Int
-        get() {
-            if (favorite) {
-                return 1
-            }
-            return 0
-        }
-}
+)

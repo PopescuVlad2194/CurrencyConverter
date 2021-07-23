@@ -4,30 +4,33 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.currencyconverter.models.exchange.Coin
+import androidx.room.TypeConverters
+import com.example.currencyconverter.models.news.Article
 
 @Database(
-    entities = [Coin::class],
+    entities = [Article::class],
     version = 1
 )
-abstract class CoinDatabase : RoomDatabase(){
+@TypeConverters(Converters::class)
+abstract class ArticleDatabase : RoomDatabase() {
 
-    abstract fun getCoinDao(): CoinDao
+    abstract fun getArticlesDao(): ArticleDao
 
     companion object {
         @Volatile
-        private var instance: CoinDatabase? = null
+        private var instance: ArticleDatabase? = null
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
-            instance ?: createDatabase(context).also { instance = it }
+            instance ?: createDatabase(context).also { instance = it}
+
         }
 
         private fun createDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                CoinDatabase::class.java,
-                "coins_db.db"
+                ArticleDatabase::class.java,
+                "article_db.db"
             ).build()
     }
 }

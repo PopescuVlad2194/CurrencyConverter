@@ -54,7 +54,7 @@
             android:id="@+id/favorites"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/ic_add_favorites"
+            android:src="@drawable/ic_remove_favorite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
